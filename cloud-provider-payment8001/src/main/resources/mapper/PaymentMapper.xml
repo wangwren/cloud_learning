@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wangwren.springcloud.dao.PaymentDao">
+
+    <resultMap id="baseResultMap" type="Payment">
+        <result column="id" property="id" jdbcType="BIGINT"></result>
+        <result column="serial" property="serial" jdbcType="VARCHAR"></result>
+    </resultMap>
+
+    <!--useGeneratedKeys="true" keyProperty="id"插入数据成功后能够一个大于0的数值 -->
+    <insert id="create" parameterType="Payment" useGeneratedKeys="true" keyProperty="id">
+        insert into payment(serial) values(#{serial})
+    </insert>
+
+    <select id="getPaymentById" parameterType="java.lang.Long" resultMap="baseResultMap">
+        select * from payment where id = #{id}
+    </select>
+</mapper>
