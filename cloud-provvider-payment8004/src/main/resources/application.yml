@@ -1,0 +1,11 @@
+#注册到zookeeper服务器的支付服务提供者端口号
+server:
+  port: 8004
+
+spring:
+  application:
+    #注册到zookeeper的服务名称
+    name: cloud-provider-payment
+  cloud:
+    zookeeper:
+      connect-string: 127.0.0.1:2181
