@@ -18,6 +18,8 @@
 
 ## [Eureka](https://github.com/wangwren/cloud_learning/blob/master/Eureka.md)
 
+## [Consul](https://github.com/wangwren/cloud_learning/blob/master/Consul.md)
+
 ## Maven工程复习
 ### Maven中的`DependencyManagement`和`Dependencies`的区别
 - DependencyManagement：
