@@ -121,3 +121,78 @@ public class EurekaMain7001 {
 
 - 主启动类，SpringCloud E版本之后，不写`@EnableEurekaClient`也能将服务注册进Eureka。
 ![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-19_01-26-41.png)
+
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_13-49-01.png)
+
+## EurekaServer集群环境构建
+==互相注册，互相观望==
+- 与单机差不多，主要是yml配置文件不同：
+- 7001配置
+
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_14-18-46.png)
+
+- 7002配置
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_14-19-30.png)
+
+- 对应服务的配置(集群)
+
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_14-36-23.png)
+
+### 构建服务提供者集群
+创建新的项目8002，与8001一样，多个服务提供者注册进Eureka。此时在消费者端，就不能讲访问地址写死了，==需要改为对应的提供服务的服务名称。==
+
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_15-16-04.png)
+
+但是只是按照上面的写法还不够，此时访问消费者，消费者通过服务名称找对应的提供者，这时会有两台提供者，它不知道要找哪一台来提供，此时就会报错。
+这时就需要使用`@LoadBalanced`注解(Ribbon提供的能力)，赋予RestTemplate负载均衡的能力。这时才能通过微服务名称调用服务。
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_15-19-08.png)
+
+配置成功后，此时访问http://localhost/consumer/order/get/4，就会轮询调用服务提供者8001，8002.
+
+Ribbon和Eureka整合后，Consumer可以直接调用服务而不用再关心地址和端口号，且该服务还有负载均衡功能了。
+
+## actuator微服务信息完善
+- 修改服务的配置文件yml
+
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_15-41-06.png)
+
+此时再访问EurekaServer可以看到服务主机名称已经被改了，并且点击也能够访问到对应的服务。访问服务时：`http://ip:port/actuator/health`，就可以看到此时服务的状态，这就是actuator提供的。
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_15-42-33.png)
+
+## Discovery服务发现
+- 对于注册进Eureka里面的微服务，可以通过服务发现来获得该服务的信息。
+
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_16-09-40.png)
+
+主启动类中还要加上`@EnableDiscoveryClient`注解。
+
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_16-11-06.png)
+
+之后访问上面java代码的地址，就可以看到对应的信息：
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_16-11-54.png)
+
+## Eureka自我保护
+### 故障现象
+- 保护模式主要用于一组客户端和EurekaServer之间存在网络分区场景下的保护。一旦进入保护模式。==EurekaServer将会尝试保护其服务注册表中的信息，不再删除服务注册表中的数据，也就是不会注销任何微服务。==
+- 如果在EurekaServer的首页看到以下这段提示，则说明Eureka进入了保护模式：
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_16-24-53.png)
+
+### 导致原因
+- ==某时刻某一个微服务不可用了，Eureka不会立刻清理，依旧会对微服务的信息进行保护。==
+- 属于CAP里面的AP分支。
+
+#### 为什么会产生Eureka自我保护机制
+为了防止EurekaClient可以正常运行，但是与EurekaServer网络不通情况下，EurekaServer不会立刻将EurekaClient服务剔除。
+#### 什么是自我保护模式
+默认情况下，如果EurekaServer在一定时间内没有接收到某个微服务实例的心跳，EurekaServer将会注销该实例(默认90秒)。但是当网络分区故障发生(延时、卡顿、拥挤)时，微服务与EurekaServer之间无法正常通信，以上行为可能变得非常危险了---因为微服务本身是健康的，==此时不应该注销这个微服务==。Eureka通过*自我保护模式*来解决这个问题。当EurekaServer节点在短时间内丢失过多客户端时(可能发生了网络分区故障)，那么这个节点就会进入自我保护模式。
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_16-42-12.png)
+==在自我保护模式中，EurekaServer会保护服务注册表中的信息，不再注销任何服务实例。==
+它的设计哲学就是宁可保留错误的服务注册信息，也不盲目注销任何可能健康的服务实例。一句话：==好死不如赖活着。==
+
+综上，自我保护模式是一种应对网络异常的安全保护措施，它的架构哲学是宁可同时保留所有微服务(健康的微服务和不健康的微服务都会保留)也不盲目注销任何健康的微服务。使用自我保护模式，可以让Eureka集群更加的健壮、稳定。
+
+### 关闭自我保护(默认开启)
+- 在EurekaServer端配置文件中配置
+![](https://imagebed-1259286100.cos.ap-beijing.myqcloud.com/img/2021-03-21_17-28-49.png)
+
+## Eureka2.0停更

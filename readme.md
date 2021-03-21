@@ -16,7 +16,7 @@
 [查看SpringCloud和SpringBoot版本选择的对应关系](https://start.spring.io/actuator/info)
 
 
-## [Eureka]()
+## [Eureka](https://github.com/wangwren/cloud_learning/blob/master/Eureka.md)
 
 ## Maven工程复习
 ### Maven中的`DependencyManagement`和`Dependencies`的区别

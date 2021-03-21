@@ -23,9 +23,6 @@ public class PaymentController {
     @Value("${server.port}")
     private String serverPort;
 
-    /**
-     * 服务发现
-     */
     @Resource
     private DiscoveryClient discoveryClient;
 
@@ -56,7 +53,7 @@ public class PaymentController {
     }
 
     /**
-     * 服务发现接口，让别人知道都有什么服务
+     * 提供服务发现，让别人知道都有什么服务
      * @return
      */
     @GetMapping("/discovery")
@@ -71,7 +68,7 @@ public class PaymentController {
         List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
         for (ServiceInstance instance : instances) {
             log.info(instance.getServiceId() + "\t" + instance.getHost() + "\t" + instance.getPort()
-                + "\t" + instance.getUri());
+                    + "\t" + instance.getUri());
         }
 
         return new CommonResult(200,"success",this.discoveryClient);

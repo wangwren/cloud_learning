@@ -12,7 +12,9 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class OrderController {
 
-    public static final String PAYMENT_URL = "http://localhost:8001";
+    //public static final String PAYMENT_URL = "http://localhost:8001";
+    //服务提供者集群
+    public static final String PAYMENT_URL = "http://CLOUD-PAYMENT-SERVICE";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -27,5 +29,10 @@ public class OrderController {
     public CommonResult<Payment> getPayment(@PathVariable("id") Long id) {
 
         return restTemplate.getForObject(PAYMENT_URL + "/payment/get/" + id,CommonResult.class);
+    }
+
+    @GetMapping("discovery")
+    public CommonResult discovery() {
+        return restTemplate.getForObject(PAYMENT_URL + "/payment/discovery",CommonResult.class);
     }
 }
