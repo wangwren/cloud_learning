@@ -76,4 +76,11 @@ public class PaymentController {
 
         return new CommonResult(200,"success",this.discoveryClient);
     }
+
+
+    @GetMapping("port")
+    public String getPort() {
+
+        return serverPort;
+    }
 }

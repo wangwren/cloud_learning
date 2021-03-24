@@ -21,6 +21,9 @@
 
 ### [Consul](https://github.com/wangwren/cloud_learning/blob/master/Consul.md)
 
+## 负载均衡服务调用
+### [Consul](https://github.com/wangwren/cloud_learning/blob/master/Ribbon.md)
+
 ### Eureka、Zookeeper、Consul三个注册中心异同点
 | 组件名       | 语言   | CAP | 服务健康检查 | 对外暴露接口   | SpringCloud集成 |
 |:---------:|:----:|:---:|:------:|:--------:|:-------------:|
