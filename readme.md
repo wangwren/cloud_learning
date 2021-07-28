@@ -24,6 +24,9 @@
 ## 负载均衡服务调用
 ### [Ribbon](https://github.com/wangwren/cloud_learning/blob/master/Ribbon.md)
 
+## OpenFeign服务调用
+### [OpenFeign](https://github.com/wangwren/cloud_learning/blob/master/OpenFeign.md)
+
 ### Eureka、Zookeeper、Consul三个注册中心异同点
 | 组件名       | 语言   | CAP | 服务健康检查 | 对外暴露接口   | SpringCloud集成 |
 |:---------:|:----:|:---:|:------:|:--------:|:-------------:|
