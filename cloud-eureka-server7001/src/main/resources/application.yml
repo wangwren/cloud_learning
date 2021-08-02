@@ -12,7 +12,9 @@ eureka:
       #设置与EurekaServer交互的地址查询服务和注册服务都需要依赖这个地址，即上面配置的：http://localhost:7001/eureka/
       #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
       #集群，这里写别的EurekaServer服务，如果有多台，用逗号隔开
-      defaultZone: http://eureka7002.com:7002/eureka/
+      #defaultZone: http://eureka7002.com:7002/eureka/
+      #单机，指向自己
+      defaultZone: http://eureka7001.com:7001/eureka/
   #server:
     #关闭自我保护机制，保证不可用服务被及时剔除
     #enable-self-preservation: false
