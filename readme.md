@@ -21,18 +21,21 @@
 
 ### [Consul](https://github.com/wangwren/cloud_learning/blob/master/Consul.md)
 
-## 负载均衡服务调用
-### [Ribbon](https://github.com/wangwren/cloud_learning/blob/master/Ribbon.md)
-
-## OpenFeign服务调用
-### [OpenFeign](https://github.com/wangwren/cloud_learning/blob/master/OpenFeign.md)
-
 ### Eureka、Zookeeper、Consul三个注册中心异同点
 | 组件名       | 语言   | CAP | 服务健康检查 | 对外暴露接口   | SpringCloud集成 |
 |:---------:|:----:|:---:|:------:|:--------:|:-------------:|
 | Eureka    | Java | **AP**  | 可配支持   | HTTP     | 已集成           |
 | Zookeeper | Java | **CP**  | 支持     | 客户端      | 已集成           |
 | Consul    | Go   | **CP**  | 支持     | HTTP/DNS | 已集成           |
+
+## 负载均衡服务调用
+### [Ribbon](https://github.com/wangwren/cloud_learning/blob/master/Ribbon.md)
+
+## OpenFeign服务调用
+### [OpenFeign](https://github.com/wangwren/cloud_learning/blob/master/OpenFeign.md)
+
+## Hystrix断路器(服务降级)
+### [Hystrix](https://github.com/wangwren/cloud_learning/blob/master/Hystrix.md)
 
 - CAP
     - C:Consistency(强一致性)
