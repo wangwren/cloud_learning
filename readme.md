@@ -28,15 +28,6 @@
 | Zookeeper | Java | **CP**  | 支持     | 客户端      | 已集成           |
 | Consul    | Go   | **CP**  | 支持     | HTTP/DNS | 已集成           |
 
-## 负载均衡服务调用
-### [Ribbon](https://github.com/wangwren/cloud_learning/blob/master/Ribbon.md)
-
-## OpenFeign服务调用
-### [OpenFeign](https://github.com/wangwren/cloud_learning/blob/master/OpenFeign.md)
-
-## Hystrix断路器(服务降级)
-### [Hystrix](https://github.com/wangwren/cloud_learning/blob/master/Hystrix.md)
-
 - CAP
     - C:Consistency(强一致性)
     - A:Availability(可用性)
@@ -47,6 +38,16 @@
     - CA：单点集群，满足一致性，可用性的系统，通常在可扩展性上不太强大。
     - CP：满足强一致性，分区容错性的系统，通常性能不是特别高。
     - AP：满足可用性，分区容错性的系统，通常可能对一致性要求低一些。
+
+## 负载均衡服务调用
+### [Ribbon](https://github.com/wangwren/cloud_learning/blob/master/Ribbon.md)
+
+## OpenFeign服务调用
+### [OpenFeign](https://github.com/wangwren/cloud_learning/blob/master/OpenFeign.md)
+
+## Hystrix断路器(服务降级)
+### [Hystrix](https://github.com/wangwren/cloud_learning/blob/master/Hystrix.md)
+
 ## Maven工程复习
 ### Maven中的`DependencyManagement`和`Dependencies`的区别
 - DependencyManagement：
